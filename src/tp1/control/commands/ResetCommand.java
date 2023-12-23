@@ -1,9 +1,11 @@
 package tp1.control.commands;
 
-import tp1.control.ExecutionResult;
 import tp1.control.InitialConfiguration;
+import tp1.exceptions.CommandParseException;
 import tp1.logic.GameModel;
 import tp1.view.Messages;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class ResetCommand extends Command{
 	private InitialConfiguration conf;
@@ -16,7 +18,7 @@ public class ResetCommand extends Command{
 	}
 	
 	@Override
-	public ExecutionResult execute(GameModel game) {
+	public boolean execute(GameModel game) {
 		if(this.conf != null)
 		{
 			game.reset(this.conf);
@@ -27,22 +29,34 @@ public class ResetCommand extends Command{
 	}
 
 	@Override
-	public Command parse(String[] commandWords) 
+	public Command parse(String[] commandWords) throws CommandParseException
 	{
 		Command c = null;
 		if(matchCommandName(commandWords[0]))
 		{
 			c = this;
-			if(commandWords.length == 2) //reset con 3 long es none
+			if(commandWords.length == 2)
 			{
-				if(InitialConfiguration.opVal(commandWords[1].toUpperCase()))
+				try
 				{
-					InitialConfiguration config = InitialConfiguration.valueOfIgnoreCase(commandWords[1]);
-					c = new ResetCommand(config);
+					InitialConfiguration config = InitialConfiguration.readFromFile(commandWords[1]);
+					c = new ResetCommand(config);					
+				}
+				catch(FileNotFoundException e)
+				{
+					throw new CommandParseException(Messages.FILE_NOT_FOUND.formatted(commandWords[1]));
+				}
+				catch(IOException e)
+				{
+					throw new CommandParseException(Messages.READ_ERROR.formatted(commandWords[1]));
 				}
 			}
-			else
+			else if(commandWords.length == 1)
 				c = new ResetCommand(InitialConfiguration.NONE);
+			else
+			{
+				throw new CommandParseException(Messages.COMMAND_INCORRECT_PARAMETER_NUMBER);
+			}
 		}
 		return c;
 	}

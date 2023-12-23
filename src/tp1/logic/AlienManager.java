@@ -42,7 +42,7 @@ public class AlienManager {
 		
 		initializeOvni(container);
 		
-		if(conf.equals(InitialConfiguration.NONE))
+		if(conf == InitialConfiguration.NONE)
 		{
 			initializeRegularAliens(container);
 			initializeDestroyerAliens(container);
