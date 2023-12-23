@@ -24,7 +24,6 @@ public class ShockWave extends UCMWeapon{
 	{
 		game.enableShockWave(false);
 	}
-	
 
 	@Override
 	protected int getDamage() {

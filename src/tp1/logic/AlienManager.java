@@ -67,9 +67,9 @@ public class AlienManager {
 			try
 			{
 				Position pos = new Position(Integer.valueOf(words[1]), Integer.valueOf(words[2]));
-				if(pos.outOfWall())
+				if(pos.outOfWall() || pos.out())
 				{
-					throw new InitializationException(Messages.OFF_WORLD_POSITION.formatted(words[1], words[2]));
+					throw new InitializationException(Messages.OFF_WORLD_POSITION.formatted(Messages.POSITION.formatted(words[1], words[2])));
 				}
 				container.add(ShipFactory.spawnAlienShip(words[0], game, pos, this));
 			}
