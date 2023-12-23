@@ -1,6 +1,7 @@
 package tp1.logic;
 
 import tp1.control.InitialConfiguration;
+import tp1.exceptions.InitializationException;
 import tp1.exceptions.LaserIntFlightException;
 import tp1.exceptions.NoShockWaveException;
 import tp1.exceptions.NotAllowedMoveException;
@@ -18,7 +19,7 @@ public interface GameModel {
 
 	public void move(Move move) throws NotAllowedMoveException, OffWorldException;
 	public void shootLaser() throws LaserIntFlightException;
-	public void reset(InitialConfiguration conf);
+	public void reset(InitialConfiguration conf)throws InitializationException;
 	public void exit();
 	public void shootPower() throws NoShockWaveException;
 	public void shootSuperLaser() throws LaserIntFlightException, NotEnoughPointsException;

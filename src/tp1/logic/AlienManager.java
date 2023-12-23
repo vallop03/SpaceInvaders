@@ -1,6 +1,7 @@
 package tp1.logic;
 
 import tp1.control.InitialConfiguration;
+import tp1.exceptions.InitializationException;
 import tp1.logic.gameobjects.DestroyerAlien;
 //import tp1.logic.gameobjects.GameObject;
 import tp1.logic.gameobjects.RegularAlien;
@@ -8,6 +9,7 @@ import tp1.logic.gameobjects.ShipFactory;
 import tp1.logic.gameobjects.Ufo;
 //import tp1.logic.lists.DestroyerAlienList;
 //import tp1.logic.lists.RegularAlienList;
+import tp1.view.Messages;
 
 /**
  * 
@@ -36,7 +38,7 @@ public class AlienManager {
 	// INITIALIZER METHODS
 	
 	
-	public  GameObjectContainer initialize(InitialConfiguration conf) {
+	public  GameObjectContainer initialize(InitialConfiguration conf) throws InitializationException{
 		this.remainingAliens = 0;
 		GameObjectContainer container = new GameObjectContainer();
 		
@@ -54,10 +56,27 @@ public class AlienManager {
 	}
 	
 	
-	private void costumedInitialization(GameObjectContainer container, InitialConfiguration conf) {
-		for (String shipDescription : conf.getShipDescription()) {
+	private void costumedInitialization(GameObjectContainer container, InitialConfiguration conf) throws InitializationException{
+		for (String shipDescription : conf.getShipDescription()) 
+		{
 			String[] words = shipDescription.toLowerCase().trim().split("\\s+");
-			container.add(ShipFactory.spawnAlienShip(words[0], game, new Position(Integer.valueOf(words[1]), Integer.valueOf(words[2])), this));
+			if(words.length != 3)
+			{
+				throw new InitializationException(Messages.INCORRECT_ENTRY.formatted(shipDescription));
+			}
+			try
+			{
+				Position pos = new Position(Integer.valueOf(words[1]), Integer.valueOf(words[2]));
+				if(pos.outOfWall())
+				{
+					throw new InitializationException(Messages.OFF_WORLD_POSITION.formatted(words[1], words[2]));
+				}
+				container.add(ShipFactory.spawnAlienShip(words[0], game, pos, this));
+			}
+			catch(NumberFormatException e)
+			{
+				throw new InitializationException(Messages.INVALID_POSITION.formatted(words[1], words[2]));
+			}
 			this.remainingAliens++;
 		}
 	}

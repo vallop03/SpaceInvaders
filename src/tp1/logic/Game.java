@@ -1,6 +1,7 @@
 package tp1.logic;
 
 import tp1.control.InitialConfiguration;
+import tp1.exceptions.InitializationException;
 import tp1.exceptions.LaserIntFlightException;
 import tp1.exceptions.NoShockWaveException;
 import tp1.exceptions.NotAllowedMoveException;
@@ -32,14 +33,14 @@ public class Game implements GameStatus, GameModel, GameWorld{
 
 	private GameObjectContainer container;
 
-	public Game(Level level, long seed) {
+	public Game(Level level, long seed) throws InitializationException {
 		this.level = level;
 		this.seed = seed;
 		this.reset(InitialConfiguration.NONE);
 	}
 	
 	@Override
-	public void reset(InitialConfiguration conf) { ////reinicia el juego
+	public void reset(InitialConfiguration conf) throws InitializationException{ ////reinicia el juego
 		
 		this.alienMan = new AlienManager(this, level);
 		this.container = this.alienMan.initialize(conf);

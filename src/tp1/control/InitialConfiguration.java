@@ -4,6 +4,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.util.ArrayList;
+
 
 public class InitialConfiguration {
 	
@@ -18,7 +22,17 @@ public class InitialConfiguration {
 	
 	public static InitialConfiguration readFromFile(String filename) throws FileNotFoundException, IOException 
 	{
-		
+		try (BufferedReader in = new BufferedReader(new FileReader(filename)))
+		{
+			 String l = in.readLine();
+			 List<String> config = new ArrayList<String>();
+			 while (l != null) 
+			 {
+				 config.add(l);
+				 l = in.readLine();
+			 }
+			 return new InitialConfiguration(config);
+		}
 	}
 	
 	public List<String> getShipDescription(){

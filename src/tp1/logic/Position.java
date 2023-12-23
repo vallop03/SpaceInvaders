@@ -34,10 +34,14 @@ public class Position {
 	}
 	
 
-	public boolean validPos(Move move) { //////YO
-		int columns = this.col + move.getX();
-		int rows = this.row + move.getY();
-		return columns >= 0 && columns < Game.DIM_X && rows >= 0 && rows < Game.DIM_Y;
+	public boolean validPos(Move move) { 
+		this.nuevaPos(move);
+		return !outOfWall() || !out();
+	}
+	
+	public boolean outOfWall()
+	{
+		return this.col < 0 && this.col >= Game.DIM_X;
 	}
 	
 	public boolean out()

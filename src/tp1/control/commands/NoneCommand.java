@@ -33,9 +33,7 @@ public class NoneCommand extends NoParamsCommand{
 		
 		@Override
 		 protected boolean matchCommandName(String name) {
-			String none = "";
-			    return getShortcut().equalsIgnoreCase(name) || 
-			        getName().equalsIgnoreCase(name) || none.equals(name);
+			return super.matchCommandName(name) || name.isEmpty();
 		  }
 
 	}

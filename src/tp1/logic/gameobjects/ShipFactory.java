@@ -3,9 +3,11 @@ package tp1.logic.gameobjects;
 import java.util.Arrays;
 import java.util.List;
 
+import tp1.exceptions.InitializationException;
 import tp1.logic.AlienManager;
 import tp1.logic.GameWorld;
 import tp1.logic.Position;
+import tp1.view.Messages;
 
 public class ShipFactory {
 	
@@ -15,18 +17,15 @@ public class ShipFactory {
 			new ExplosiveAlien()
 		);
 	
-	public static AlienShip spawnAlienShip(String input, GameWorld game, Position pos, AlienManager am)
+	public static AlienShip spawnAlienShip(String input, GameWorld game, Position pos, AlienManager am) throws InitializationException
 	{
-		AlienShip ship = null;
 		for(AlienShip alien: AVAILABLE_ALIEN_SHIPS)
 		{
-			if(ship == null)
-			{
 				if(input.equalsIgnoreCase(alien.getLetter()))
-					ship = alien.copy(game, pos, am);
-			}
+					return alien.copy(game, pos, am);
+
 		}
-		return ship;
+		throw new InitializationException(Messages.UNKNOWN_SHIP.formatted(input));
 	}
 
 }
