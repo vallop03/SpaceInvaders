@@ -38,8 +38,9 @@ public class Ufo extends EnemyShip{
 		if(this.enable)
 		{
 			this.pos = pos.nuevaPos(Move.LEFT);
-			if(!pos.validPos(Move.NONE))
+			if(pos.out() || pos.outOfWall())
 			{
+				this.life = resistance;
 				this.enable = false;
 				this.pos = new Position(9, 0);
 			}

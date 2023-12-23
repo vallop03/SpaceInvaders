@@ -15,7 +15,6 @@ public abstract class Weapon extends GameObject{
 	
 	@Override
 	public void automaticMove () {
-		game.receiveAttack(this);
 		performMovement(dir);
 		if(isOut())
 			this.looseLife(this.getArmour());;

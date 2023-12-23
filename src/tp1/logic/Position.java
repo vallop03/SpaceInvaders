@@ -1,6 +1,5 @@
 package tp1.logic;
-//en initial config quito enumerado 
-//quito funciones de enumerado valueOf 
+
 
 /**
  * 
@@ -41,7 +40,7 @@ public class Position {
 	
 	public boolean outOfWall()
 	{
-		return this.col < 0 && this.col >= Game.DIM_X;
+		return this.col < 0 || this.col >= Game.DIM_X;
 	}
 	
 	public boolean out()

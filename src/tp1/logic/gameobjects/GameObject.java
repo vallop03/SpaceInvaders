@@ -77,4 +77,8 @@ public abstract class GameObject implements GameItem {
 	@Override
 	public boolean receiveAttack(UCMWeapon weapon) {return false;}
 
+	public boolean isOnPosition(GameObject object) {
+		return object.isOnPosition(this.pos);
+	}
+
 }

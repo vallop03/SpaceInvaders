@@ -53,10 +53,14 @@ public class GameObjectContainer {
 	public void receiveAttack(GameObject victim)
 	{
 		int i = 0;
+		GameObject object = objects.get(i);
 		while(i < objects.size() && victim.isAlive())
 		{
-			GameObject object = objects.get(i);
-			object.performAttack(victim);
+			object = objects.get(i);
+			if(victim.isOnPosition(object))
+			{
+				object.performAttack(victim);
+			}
 			i++;
 		}
 	}
