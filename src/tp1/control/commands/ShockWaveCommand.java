@@ -1,22 +1,25 @@
 package tp1.control.commands;
 
 
-import tp1.control.ExecutionResult;
+import tp1.exceptions.CommandExecuteException;
+import tp1.exceptions.GameModelException;
 import tp1.logic.GameModel;
 import tp1.view.Messages;
 
 public class ShockWaveCommand extends NoParamsCommand{
 	
 	@Override
-	public ExecutionResult execute(GameModel game) {
-		
-		if(game.shootPower())
+	public boolean execute(GameModel game)  throws CommandExecuteException{
+		try 
 		{
+			game.shootPower();
 			game.update();
-			return new ExecutionResult(true);
+			return true;
 		}
-    	else
-    		return new ExecutionResult(Messages.SHOCKWAVE_ERROR);
+		catch(GameModelException e)
+		{
+			throw new CommandExecuteException(Messages.SHOCKWAVE_ERROR);
+		}
 	}
 
 	@Override

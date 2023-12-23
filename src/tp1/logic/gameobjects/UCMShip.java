@@ -1,9 +1,12 @@
 package tp1.logic.gameobjects;
 
 import tp1.view.Messages;
+import tp1.exceptions.LaserIntFlightException;
+import tp1.exceptions.NoShockWaveException;
+import tp1.exceptions.NotAllowedMoveException;
+import tp1.exceptions.OffWorldException;
 import tp1.logic.GameWorld;
 import tp1.logic.Move;
-//import tp1.logic.Move;
 import tp1.logic.Position;
 
 
@@ -57,15 +60,16 @@ public class UCMShip extends Ship{
 		return this.life >= 0;
 	}
 	
-	public boolean shoot() {
-		boolean puedoDisparar = !enableLaser;
-		if(puedoDisparar)
+	public void shoot() throws LaserIntFlightException{
+		if(!enableLaser)
 		{
 			UCMLaser laser = new UCMLaser(game, pos);
 			this.game.addObject(laser);
 			this.enableLaser = true;
 		}
-		return puedoDisparar;
+		else
+			throw new LaserIntFlightException(Messages.LASER_ALREADY_SHOT);
+			
 	}
 
 	public String Lifes() {
@@ -110,35 +114,53 @@ public class UCMShip extends Ship{
 		
 	}
 
-	public boolean shootShockWave() {
+	public void shootShockWave() throws NoShockWaveException{
 		if(enableShockWave)
 		{
 			game.addObject(new ShockWave(game, game.getRemainingAliens()));
 			enableShockWave = false;
-			return true;
 		}
-		return false;
+		else
+			throw new NoShockWaveException();
 	}
 
 	public boolean death() {
 		return this.life <= 0;
 	}
 
-	public boolean superLaser() {
+	public void superLaser() throws LaserIntFlightException
+	{
 		if(!enableLaser)
 		{
 			UCMSuperLaser superLaser = new UCMSuperLaser(game, pos);
 			this.game.addObject(superLaser);
 			this.enableLaser = true;
-			return true;
 		}
-		return false;
+		else
+			throw new LaserIntFlightException(Messages.LASER_ALREADY_SHOT);
 	}
 
 	public static String allowedMoves(String string) {
 		return String.valueOf(Move.LEFT) + string +  String.valueOf(Move.LLEFT) + string + String.valueOf(Move.RIGHT) + string + String.valueOf(Move.RRIGHT);
 	}
-	
-	
+
+	public void performMove(Move move) throws NotAllowedMoveException, OffWorldException
+	{
+		if(move != Move.UP && move != Move.DOWN)
+		{
+			if(validPos(move))
+			{
+				performMovement(move);				
+			}
+			else
+			{
+				throw new OffWorldException(Messages.OFF_WORLD_MESSAGE.formatted(move, this.pos));
+			}
+		}
+		else
+		{
+			throw new NotAllowedMoveException(Messages.ALLOWED_UCMSHIP_MOVES);
+		}
+	}
 	
 }

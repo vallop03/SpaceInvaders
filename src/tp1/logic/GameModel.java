@@ -1,23 +1,27 @@
 package tp1.logic;
 
 import tp1.control.InitialConfiguration;
+import tp1.exceptions.LaserIntFlightException;
+import tp1.exceptions.NoShockWaveException;
+import tp1.exceptions.NotAllowedMoveException;
+import tp1.exceptions.NotEnoughPointsException;
+import tp1.exceptions.OffWorldException;
+
 
 public interface GameModel {
 	
 	public boolean isFinished();
 	public String infoToString();
 	public void update();
-	public boolean enoughPoints();
-	public void decreasePoints();
 	
 	// PLAYER ACTIONS
 
-	public boolean move(Move move);
-	public boolean shootLaser();
+	public void move(Move move) throws NotAllowedMoveException, OffWorldException;
+	public void shootLaser() throws LaserIntFlightException;
 	public void reset(InitialConfiguration conf);
 	public void exit();
-	public boolean shootPower();
-	public boolean shootSuperLaser();
+	public void shootPower() throws NoShockWaveException;
+	public void shootSuperLaser() throws LaserIntFlightException, NotEnoughPointsException;
 	
 }	
 

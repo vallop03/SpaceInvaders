@@ -16,7 +16,6 @@ public interface GameWorld {
 	public void enableLaser(boolean activate);
 	public void enableShockWave(boolean activate);
 	public int getRemainingAliens();
-	public boolean enoughPoints(); //la nave es el gestor de puntos
 	public void receiveAttack(GameObject object);
 	public void performAttack(GameObject weapon);
 	public int getNumCyclesToMoveOneCell();

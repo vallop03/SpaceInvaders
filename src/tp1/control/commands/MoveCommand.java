@@ -1,6 +1,9 @@
 package tp1.control.commands;
 
-import tp1.control.ExecutionResult;
+import tp1.exceptions.CommandExecuteException;
+import tp1.exceptions.CommandParseException;
+import tp1.exceptions.NotAllowedMoveException;
+import tp1.exceptions.OffWorldException;
 import tp1.logic.GameModel;
 import tp1.logic.Move;
 import tp1.view.Messages;
@@ -8,13 +11,11 @@ import tp1.view.Messages;
 public class MoveCommand extends Command {
 
 	private Move move;
-	private String invalMove;
 
 	public MoveCommand() {}
 
-	protected MoveCommand(Move move, String error) {
+	protected MoveCommand(Move move) {
 		this.move = move;
-		this.invalMove = error;
 	}
 
 	@Override
@@ -38,44 +39,46 @@ public class MoveCommand extends Command {
 	}
 
 	@Override
-	public ExecutionResult execute(GameModel game) {
-		if(this.move == Move.UP || this.move == Move.DOWN)
-		{
-			return new ExecutionResult(Messages.DIRECTION_ERROR + invalMove);
-		}
-		else if(this.move == null)
-			return new ExecutionResult(Messages.COMMAND_PARAMETERS_MISSING);
-		
-		if(!game.move(move))
-			return new ExecutionResult(Messages.MOVEMENT_ERROR);
-		else
-		{
+	public boolean execute(GameModel game) throws CommandExecuteException{
+		try {
+			game.move(move);
 			game.update();
-			return new ExecutionResult(true);
+			return true;
 		}
+		catch(OffWorldException e) {
+			throw new CommandExecuteException(Messages.MOVEMENT_ERROR, e);
+		}
+		catch(NotAllowedMoveException e)
+		{
+			throw new CommandExecuteException(Messages.DIRECTION_ERROR, e);
+		}
+		
 	}
 
 
 	@Override
-	public Command parse(String[] commandWords) { 
+	public Command parse(String[] commandWords) throws CommandParseException
+	{ 
 		Command c = null;
 		Move move = null;
 		if(matchCommandName(commandWords[0]))
 		{
 			c = this;
-			if(commandWords.length == 2)// quitar strings y opVal con excepciones
+			if(commandWords.length == 2)
 			{
-				if(Move.opVal(commandWords[1].toUpperCase()))
+				try
 				{
 					move = Move.valueOf(commandWords[1].toUpperCase());
-					c = new MoveCommand(move, "");
+					c = new MoveCommand(move);
 				}
-				else
+				catch(IllegalArgumentException e)
 				{
-					c = new MoveCommand(Move.UP, commandWords[1]);
+					throw new CommandParseException(Messages.DIRECTION_ERROR + commandWords[1]);
 				}
 				
 			}
+			else
+				throw new CommandParseException(Messages.COMMAND_INCORRECT_PARAMETER_NUMBER);
 		}
 	    return c;
 	}

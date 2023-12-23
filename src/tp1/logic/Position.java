@@ -1,5 +1,6 @@
 package tp1.logic;
-
+//en initial config quito enumerado 
+//quito funciones de enumerado valueOf 
 
 /**
  * 
@@ -7,6 +8,11 @@ package tp1.logic;
  * 
  */
 public class Position {
+
+	@Override
+	public String toString() {
+		return String.valueOf(this.col) + ", " + String.valueOf(this.row);
+	}
 
 	private int col;
 	private int row;

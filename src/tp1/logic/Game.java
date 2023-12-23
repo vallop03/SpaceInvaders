@@ -1,21 +1,17 @@
 package tp1.logic;
 
 import tp1.control.InitialConfiguration;
-//import tp1.logic.gameobjects.AlienShip;
+import tp1.exceptions.LaserIntFlightException;
+import tp1.exceptions.NoShockWaveException;
+import tp1.exceptions.NotAllowedMoveException;
+import tp1.exceptions.NotEnoughPointsException;
+import tp1.exceptions.OffWorldException;
 import tp1.logic.gameobjects.DestroyerAlien;
-//import tp1.logic.gameobjects.Bomb;
 import tp1.logic.gameobjects.GameObject;
 import tp1.logic.gameobjects.RegularAlien;
 import tp1.logic.gameobjects.UCMLaser;
-//import tp1.logic.gameobjects.ShockWave;
-//import tp1.logic.gameobjects.UCMLaser;
 import tp1.logic.gameobjects.UCMShip;
 import tp1.logic.gameobjects.Ufo;
-//import tp1.logic.gameobjects.Weapon;
-//import tp1.logic.gameobjects.Ufo;
-//import tp1.logic.lists.BombList;
-//import tp1.logic.lists.DestroyerAlienList;
-//import tp1.logic.lists.RegularAlienList;
 import tp1.view.Messages;
 
 import java.util.Random;
@@ -56,23 +52,19 @@ public class Game implements GameStatus, GameModel, GameWorld{
 	
 	
 	
-	@Override
-	public boolean enoughPoints()//meter esta condicion abajo y restar puntos(game)
-	{
-		return this.points >= 5;
-	}
 	
 	@Override
-	public boolean shootSuperLaser()
+	public void shootSuperLaser()throws LaserIntFlightException, NotEnoughPointsException
 	{
-		return player.superLaser();
+		if(this.points >= 5)
+		{
+			player.superLaser();
+			this.points -= 5;
+		}
+		else
+			throw new NotEnoughPointsException(Messages.NOT_ENOUGH_POINTS_ERROR.formatted(this.points, 5));
 	}
 	
-	@Override
-	public void decreasePoints()//poner arriba
-	{
-		this.points -= 5;
-	}
 	
 	@Override
 	public void enableLaser(boolean activate)
@@ -156,13 +148,8 @@ public class Game implements GameStatus, GameModel, GameWorld{
 	
 	
 	@Override
-	public boolean move(Move move) { //permite el movimiento de la nave
-		boolean val = player.validPos(move);//MOVER A PLAYER
-		if(val)
-		{
-			player.performMovement(move);
-		}
-		return val;
+	public void move(Move move) throws NotAllowedMoveException, OffWorldException{ //permite el movimiento de la nave
+		player.performMove(move);
 	}
 	
 	private final String[] LIST_LINES = new String[] //CONSTANTES MAYUSC. Hacer con factoria (esto privado)
@@ -184,14 +171,14 @@ public class Game implements GameStatus, GameModel, GameWorld{
 	}
 
 	@Override
-	public boolean shootLaser() {//crea el laser en ship porque necesita posNave
-		return player.shoot();
+	public void shootLaser() throws LaserIntFlightException{//crea el laser en ship porque necesita posNave
+		 player.shoot();
 	}
 	
 	@Override
-	public boolean shootPower()
+	public void shootPower() throws NoShockWaveException
 	{
-		return player.shootShockWave();
+		player.shootShockWave();
 	}
 	
 	

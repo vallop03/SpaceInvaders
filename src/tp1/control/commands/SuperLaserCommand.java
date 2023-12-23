@@ -1,27 +1,25 @@
 package tp1.control.commands;
 
-import tp1.control.ExecutionResult;
 import tp1.exceptions.CommandExecuteException;
+import tp1.exceptions.GameModelException;
 import tp1.logic.GameModel;
 import tp1.view.Messages;
 
 public class SuperLaserCommand extends NoParamsCommand{
 	
 	@Override
-	public boolean execute(GameModel game) throws CommandExecuteException{
-		if(game.enoughPoints())
-		{
-			if(game.shootSuperLaser())
+	public boolean execute(GameModel game) throws CommandExecuteException
+	{
+			try
 			{
-				game.decreasePoints();
+				game.shootSuperLaser();
 				game.update();
-				return ;
+				return true;
 			}
-			else
-				return new ExecutionResult(Messages.LASER_ALREADY_SHOT);
-		}
-		else 
-			return new ExecutionResult(Messages.SUPERLASER_ERROR);
+			catch(GameModelException e)
+			{
+				throw new CommandExecuteException(Messages.SUPERLASER_ERROR, e);
+			}
 
 	}
 
