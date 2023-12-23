@@ -17,7 +17,7 @@ import tp1.view.Messages;
 /**
  * Accepts user input and coordinates the game execution logic.
  */
-public class Controller {
+public class Controller {//CONTROLA COSAS 
 
 	private GameModel game;
 	private Scanner scanner;
