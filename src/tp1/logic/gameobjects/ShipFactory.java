@@ -17,6 +17,24 @@ public class ShipFactory {
 			new ExplosiveAlien()
 		);
 	
+	private static final List<Ship> AVAILABLE_SHIPS = Arrays.asList(
+			new RegularAlien(),
+			new DestroyerAlien(),
+			new ExplosiveAlien(),
+			new Ufo(),
+			new UCMShip()
+		);
+	
+	public static String ListLines()
+	{
+		String lista = "";
+		for(Ship c: AVAILABLE_SHIPS)
+		{
+			lista += c.getInfo() + Messages.LINE_SEPARATOR;
+		}
+		return lista;
+	}
+	
 	public static AlienShip spawnAlienShip(String input, GameWorld game, Position pos, AlienManager am) throws InitializationException
 	{
 		for(AlienShip alien: AVAILABLE_ALIEN_SHIPS)

@@ -34,8 +34,8 @@ public class Position {
 	
 
 	public boolean validPos(Move move) { 
-		this.nuevaPos(move);
-		return !outOfWall() || !out();
+		Position pos = this.nuevaPos(move);
+		return !pos.outOfWall() && !pos.out();
 	}
 	
 	public boolean outOfWall()
@@ -56,25 +56,10 @@ public class Position {
 	public boolean down() {
 		return this.row == Game.DIM_Y - 1;
 	}
-
-	public boolean isOnPosNextTo(Position pos) { //Hacer con distancias
-		boolean find = pos.equals(this);
-		int i = pos.row - 1;
-		int j = pos.col - 1;
-		while(!find && i < pos.row + 2)
-		{
-			while(!find && j < pos.col + 2)
-			{
-				Position findPos = new Position(j, i);
-				find = findPos.equals(this);
-				j++;
-			}
-			i++;
-			j = pos.col - 1;
-		}
-		return find;
+	
+	public boolean isOnPosNextTo(Position pos)
+	{
+		return Math.abs(this.col - pos.col) < 2 && Math.abs(this.row - pos.row) < 2;
 	}
 
-	
-	
 }

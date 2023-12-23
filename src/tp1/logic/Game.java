@@ -7,12 +7,9 @@ import tp1.exceptions.NoShockWaveException;
 import tp1.exceptions.NotAllowedMoveException;
 import tp1.exceptions.NotEnoughPointsException;
 import tp1.exceptions.OffWorldException;
-import tp1.logic.gameobjects.DestroyerAlien;
 import tp1.logic.gameobjects.GameObject;
-import tp1.logic.gameobjects.RegularAlien;
-import tp1.logic.gameobjects.UCMLaser;
+import tp1.logic.gameobjects.ShipFactory;
 import tp1.logic.gameobjects.UCMShip;
-import tp1.logic.gameobjects.Ufo;
 import tp1.view.Messages;
 
 import java.util.Random;
@@ -51,9 +48,6 @@ public class Game implements GameStatus, GameModel, GameWorld{
 		this.exit = false;
 	}
 	
-	
-	
-	
 	@Override
 	public void shootSuperLaser()throws LaserIntFlightException, NotEnoughPointsException
 	{
@@ -78,7 +72,7 @@ public class Game implements GameStatus, GameModel, GameWorld{
 	{
 		player.enableShockWave(activate);
 	}
-	
+
 	
 	public void update() {
 	    this.cycles++;
@@ -94,8 +88,8 @@ public class Game implements GameStatus, GameModel, GameWorld{
 	
 
 	@Override
-	public String stateToString() {//imprime vidas, puntos y shockWave //CAMBIAR Y USAR LISTA DE MENSAJES
-		return this.player.Lifes() + System.lineSeparator() + "Points: " + this.points + System.lineSeparator() + "ShockWave: " + player.shockWaveState() + System.lineSeparator(); 
+	public String stateToString() {//imprime vidas, puntos y shockWave
+		return Messages.LIFES + this.player.getLife() + Messages.LINE_SEPARATOR + Messages.SCORE + this.points + Messages.LINE_SEPARATOR + Messages.SHOCKWAVE + player.shockWaveState() + Messages.LINE_SEPARATOR; 
 	}
 	
 	@Override
@@ -153,21 +147,17 @@ public class Game implements GameStatus, GameModel, GameWorld{
 		player.performMove(move);
 	}
 	
-	private final String[] LIST_LINES = new String[] //CONSTANTES MAYUSC. Hacer con factoria (esto privado)
-	{
-		Messages.ucmShipDescription(Messages.UCMSHIP_DESCRIPTION, UCMLaser.damage, UCMShip.ini_health),
-		Messages.alienDescription(Messages.REGULAR_ALIEN_DESCRIPTION, RegularAlien.points, RegularAlien.damage, RegularAlien.ini_resistance),
-		Messages.alienDescription(Messages.DESTROYER_ALIEN_DESCRIPTION, DestroyerAlien.points, DestroyerAlien.damage, DestroyerAlien.ini_resistance),
-		Messages.alienDescription(Messages.UFO_DESCRIPTION, 25, Ufo.damage, Ufo.resistance),
-		" "};
-	
 	@Override  //////PONER OVERRIDE EN FUNCIONES REPES
 	public String infoToString()
 	{
-		return String.join(System.lineSeparator(), LIST_LINES);
+		return ShipFactory.ListLines();
 	}
 	
 	public String positionToString(int col, int row) {//pide a nave simbolo
+		if(this.player.isOnPosition(new Position(col, row)))
+		{
+			return this.player.toString();
+		}
 		return container.toString(new Position(col, row));
 	}
 

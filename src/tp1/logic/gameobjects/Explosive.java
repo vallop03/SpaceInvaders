@@ -3,9 +3,11 @@ package tp1.logic.gameobjects;
 import tp1.logic.GameWorld;
 import tp1.logic.Move;
 import tp1.logic.Position;
-//import tp1.view.Messages;
+
 
 public class Explosive extends EnemyWeapon{
+	public static final int DAMAGE = 1;
+	public static final int INI_RESISTANCE = 0;
 	
 	public Explosive(GameWorld game, Position pos)
 	{
@@ -20,12 +22,12 @@ public class Explosive extends EnemyWeapon{
 	
 	@Override
 	protected int getDamage() {
-		return 1;
+		return Explosive.DAMAGE;
 	}
 
 	@Override
 	protected int getArmour() {
-		return 0;
+		return this.life;
 	}
 	
 	@Override
@@ -47,8 +49,6 @@ public class Explosive extends EnemyWeapon{
 	{
 		return false;
 	}	
-	
-	
-	
+
 
 }

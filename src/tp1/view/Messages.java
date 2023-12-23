@@ -76,6 +76,10 @@ public class Messages {
 	public static final String UNEXPECTED_RUNTIME_ERROR = "Oops! This should not have happened...";
 	
 	public static final String SCORE = "Points:";
+	
+	public static final String LIFES = "Lifes: ";
+	
+	public static final String SHOCKWAVE = "ShockWave: ";
 
 	public static final String LASER_ERROR = "Laser cannot be shot";
 

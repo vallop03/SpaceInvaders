@@ -9,19 +9,26 @@ import tp1.view.Messages;
 public class Ufo extends EnemyShip{
 
 	private boolean enable;
-	private final static int speed = 0;
+	private final static int SPEED = 0;
 	
 	//CTES
-	public final static int resistance = 1;
-	public final static int points = 25;
-	public final static int damage = 0;
+	public final static int RESISTANCE = 1;
+	public final static int POINTS = 25;
+	public final static int DAMAGE = 0;
 
+	public Ufo(){}
 	
 	public Ufo(GameWorld game)
 	{
-		super(game, new Position(9, 0), Move.LEFT, resistance, speed, points);
+		super(game, new Position(9, 0), Move.LEFT, RESISTANCE, SPEED, POINTS);
 		this.enable = false;
 		
+	}
+	
+	@Override
+	public String getInfo()
+	{
+		return Messages.alienDescription(Messages.UFO_DESCRIPTION, Ufo.POINTS, Ufo.DAMAGE, Ufo.RESISTANCE);
 	}
 
 	@Override
@@ -40,7 +47,7 @@ public class Ufo extends EnemyShip{
 			this.pos = pos.nuevaPos(Move.LEFT);
 			if(pos.out() || pos.outOfWall())
 			{
-				this.life = resistance;
+				this.life = RESISTANCE;
 				this.enable = false;
 				this.pos = new Position(9, 0);
 			}
@@ -64,9 +71,9 @@ public class Ufo extends EnemyShip{
 
 	@Override
 	public void onDelete() {
-		game.increasePoints(points);
+		game.increasePoints(POINTS);
 		this.enable = false;
-		this.life = resistance;
+		this.life = RESISTANCE;
 		this.pos = new Position(9, 0);
 		game.enableShockWave(true);
 	}
@@ -98,7 +105,7 @@ public class Ufo extends EnemyShip{
 
 	@Override
 	protected int getArmour() {
-		return resistance;
+		return RESISTANCE;
 	}
 	
 }

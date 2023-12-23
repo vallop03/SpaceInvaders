@@ -10,9 +10,9 @@ public class DestroyerAlien extends AlienShip {
 	private boolean enableBomb;
 	
 	//CTES
-	public static final int ini_resistance = 1;
-	public static final int points = 10;
-	public static final int damage = 1;
+	public static final int INI_RESISTANCE = 1;
+	public static final int POINTS = 10;
+	public static final int DAMAGE = 1;
 	
 	public DestroyerAlien() 
 	{
@@ -21,20 +21,26 @@ public class DestroyerAlien extends AlienShip {
 	
 	public DestroyerAlien(Position posAlien, AlienManager alienManager, GameWorld game)
 	{
-		super(posAlien, alienManager,  game, ini_resistance, points);
+		super(posAlien, alienManager,  game, INI_RESISTANCE, POINTS);
 		this.enableBomb = false;
+	}
+	
+	@Override
+	public String getInfo()
+	{
+		return Messages.alienDescription(Messages.DESTROYER_ALIEN_DESCRIPTION, DestroyerAlien.POINTS, DestroyerAlien.DAMAGE, DestroyerAlien.INI_RESISTANCE);
 	}
 	
 	@Override
 	public int getDamage()
 	{
-		return damage;
+		return DAMAGE;
 	}
 	
 	@Override
 	public int getArmour()
 	{
-		return ini_resistance;
+		return INI_RESISTANCE;
 	}
 
 	@Override

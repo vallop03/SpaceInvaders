@@ -12,13 +12,13 @@ import tp1.logic.Position;
  */
 
 public class UCMLaser extends UCMWeapon{
-	public static final int damage = 1;
-	public static final int life = 1;
+	public static final int DAMAGE = 1;
+	public static final int LIFE = 1;
 	
 	
 	public UCMLaser(GameWorld game, Position pos)
 	{
-		super(game, pos, UCMLaser.life, Move.UP);
+		super(game, pos, UCMLaser.LIFE, Move.UP);
 		
 	}
 	
@@ -30,7 +30,7 @@ public class UCMLaser extends UCMWeapon{
 	
 	@Override
 	protected int getDamage() {
-		return damage;
+		return DAMAGE;
 	}
 
 	@Override
@@ -41,7 +41,8 @@ public class UCMLaser extends UCMWeapon{
 	@Override
 	protected void enable()
 	{
-		game.enableLaser(false);
+		this.game.enableLaser(false);
 	}
+	
 
 }

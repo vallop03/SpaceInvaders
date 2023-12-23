@@ -14,12 +14,6 @@ public class UCMSuperLaser extends UCMWeapon{
 	{
 		super(game, pos, UCMSuperLaser.life, Move.UP);
 	}
-	
-	@Override
-	protected void enable()
-	{
-		game.enableLaser(false);
-	}
 
 	@Override
 	protected String getSymbol() {
@@ -34,5 +28,11 @@ public class UCMSuperLaser extends UCMWeapon{
 	@Override
 	protected int getArmour() {
 		return UCMSuperLaser.life;
+	}
+	
+	@Override
+	protected void enable()
+	{
+		this.game.enableLaser(false);
 	}
 }

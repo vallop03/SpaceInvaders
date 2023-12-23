@@ -50,7 +50,7 @@ public class MoveCommand extends Command {
 		}
 		catch(NotAllowedMoveException e)
 		{
-			throw new CommandExecuteException(Messages.DIRECTION_ERROR, e);
+			throw new CommandExecuteException(Messages.DIRECTION_ERROR + move.toString() , e);
 		}
 		
 	}

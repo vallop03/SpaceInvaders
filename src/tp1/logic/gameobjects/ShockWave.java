@@ -18,12 +18,6 @@ public class ShockWave extends UCMWeapon{
 	{
 		return "";
 	}
-	
-	@Override
-	protected void enable()
-	{
-		game.enableShockWave(false);
-	}
 
 	@Override
 	protected int getDamage() {
@@ -55,6 +49,13 @@ public class ShockWave extends UCMWeapon{
 	{
 		return false;
 	}
+	
+	@Override
+	protected void enable()
+	{
+		this.game.enableShockWave(false);
+	}
+	
 	
 	
 }

@@ -11,11 +11,12 @@ public abstract class Ship extends GameObject{
 		super();
 	}
 	
-	
 	protected Ship(GameWorld game, Position pos, int resist)
 	{
 		super(game, pos, resist);
 	}
+	
+	public abstract String getInfo();
 	
 
 	public boolean validPos(Move move) {

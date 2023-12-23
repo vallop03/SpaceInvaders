@@ -17,20 +17,26 @@ import tp1.view.Messages;
 public class RegularAlien extends AlienShip{
 	
 	//CTES
-	public static final int points = 5;
-	public static final int ini_resistance = 2;
-	public static final int damage = 0;
+	public static final int POINTS = 5;
+	public static final int INI_RESISTANCE = 2;
+	public static final int DAMAGE = 0;
 	
 
 	public RegularAlien(Position posAlien, AlienManager alienManager, GameWorld game)
 	{
-		super(posAlien, alienManager,  game, ini_resistance, points);
+		super(posAlien, alienManager,  game, INI_RESISTANCE, POINTS);
 		
 	}
 	
 	
 	public RegularAlien() {
 		super();
+	}
+	
+	@Override
+	public String getInfo()
+	{
+		return Messages.alienDescription(Messages.REGULAR_ALIEN_DESCRIPTION, RegularAlien.POINTS, RegularAlien.DAMAGE, RegularAlien.INI_RESISTANCE);
 	}
 	
 	@Override
@@ -42,13 +48,13 @@ public class RegularAlien extends AlienShip{
 	@Override
 	public int getDamage()
 	{
-		return damage;
+		return DAMAGE;
 	}
 	
 	@Override
 	public int getArmour()
 	{
-		return ini_resistance;
+		return INI_RESISTANCE;
 	}
 
 	@Override

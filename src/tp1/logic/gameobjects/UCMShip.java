@@ -15,23 +15,36 @@ public class UCMShip extends Ship{
 	private boolean enableShockWave;
 	
 	//CTES
-	public static final int col_ini = 4; ////Final son ctes
-	public static final int row_ini = 7;
-	public static final int ini_health = 3;
-	public static final int damage = 0;
+	public static final int COL_INI = 4; ////Final son ctes
+	public static final int ROW_INI = 7;
+	public static final int INI_HEALTH = 3;
+	public static final int DAMAGE = 0;
+	
+	public UCMShip() {};
 	
 	public UCMShip(GameWorld game)
 	{
-		super(game, new Position(col_ini, row_ini), ini_health);
+		super(game, new Position(COL_INI, ROW_INI), INI_HEALTH);
 		this.enableLaser = false;
 		this.enableShockWave = false;
 		game.addObject(this);
 	}
 	
 	@Override
+	public String getInfo()
+	{
+		return Messages.ucmShipDescription(Messages.UCMSHIP_DESCRIPTION, UCMLaser.DAMAGE, UCMShip.INI_HEALTH);
+	}
+	
+	public int getLife()//para imprimir en game
+	{
+		return this.life;
+	}
+	
+	@Override
 	protected String getSymbol()
 	{
-		if(!super.isAlive())
+		if(!this.isAlive())
 			return Messages.UCMSHIP_DEAD_SYMBOL;
 		else
 			return Messages.UCMSHIP_SYMBOL;
@@ -42,9 +55,19 @@ public class UCMShip extends Ship{
 		this.enableLaser = activate;
 	}
 	
+	public void disableLaser()
+	{
+		this.enableLaser = false;
+	}
+	
 	public void enableShockWave(boolean activate)
 	{
 		this.enableShockWave = activate;
+	}
+	
+	public void disableShockWave()
+	{
+		this.enableShockWave = false;
 	}
 	
 	public String shockWaveState() {
@@ -52,12 +75,6 @@ public class UCMShip extends Ship{
 			return "ON";
 		else
 			return "OFF";
-	}
-	
-	@Override
-	public boolean isAlive()
-	{
-		return this.life >= 0;
 	}
 	
 	public void shoot() throws LaserIntFlightException{
@@ -72,19 +89,14 @@ public class UCMShip extends Ship{
 			
 	}
 
-	public String Lifes() {
-		
-		return "Lifes: " + getLife();
-	}
-
 	@Override
 	protected int getDamage() {
-		return UCMShip.damage;
+		return UCMShip.DAMAGE;
 	}
 
 	@Override
 	protected int getArmour() {
-		return UCMShip.ini_health;
+		return UCMShip.INI_HEALTH;
 	}
 	
 	@Override
